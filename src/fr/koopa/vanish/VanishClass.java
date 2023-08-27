@@ -1,12 +1,15 @@
 package fr.koopa.vanish;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -14,7 +17,7 @@ import java.util.ArrayList;
 
 public class VanishClass implements CommandExecutor, Listener {
 
-    private ArrayList<Player> vanished = new ArrayList<>();
+    private static final ArrayList<Player> vanished = new ArrayList<>();
     // /vanish <on|off|joueur>
 
     @Override
@@ -149,5 +152,21 @@ public class VanishClass implements CommandExecutor, Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         vanished.remove(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        if(event.getAction().equals(Action.PHYSICAL)){
+            if(event.getClickedBlock().getType() == Material.GOLD_PLATE ||
+                    event.getClickedBlock().getType() == Material.STONE_PLATE ||
+                    event.getClickedBlock().getType() == Material.WOOD_PLATE ||
+                    event.getClickedBlock().getType() == Material.IRON_PLATE){
+                if (vanished.contains(player)) {
+
+                    event.setCancelled(true);
+                }
+            }
+        }
     }
 }
