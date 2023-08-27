@@ -38,8 +38,8 @@ public class VanishClass implements CommandExecutor, Listener {
 
                         for(Player players : Bukkit.getOnlinePlayers()) {
                             players.hidePlayer(player);
-                            player.setCollidable(false);
                         }
+                        player.setCollidable(false);
 
                         player.sendMessage("§aVous venez de vous vanish !");
                         return false;
@@ -51,6 +51,7 @@ public class VanishClass implements CommandExecutor, Listener {
                         for(Player players : Bukkit.getOnlinePlayers()) {
                             players.showPlayer(player);
                         }
+                        player.setCollidable(true);
 
                         player.sendMessage("§cVous venez de retirer votre vanish !");
                         return false;
@@ -69,6 +70,7 @@ public class VanishClass implements CommandExecutor, Listener {
                         for(Player players : Bukkit.getOnlinePlayers()) {
                             players.hidePlayer(player);
                         }
+                        player.setCollidable(false);
 
                         player.sendMessage("§aVous venez de vous mettre en vanish !");
                         return false;
@@ -85,6 +87,7 @@ public class VanishClass implements CommandExecutor, Listener {
                         for(Player players : Bukkit.getOnlinePlayers()) {
                             players.showPlayer(player);
                         }
+                        player.setCollidable(true);
 
                         player.sendMessage("§cVous venez de vous devanish !");
                         return false;
@@ -102,6 +105,7 @@ public class VanishClass implements CommandExecutor, Listener {
                         for(Player players : Bukkit.getOnlinePlayers()) {
                             players.hidePlayer(target);
                         }
+                        target.setCollidable(false);
 
                         player.sendMessage("§aVous venez de vanish " + args[0] + " !");
                         target.sendMessage("§aVous venez d'être vanish !");
@@ -114,6 +118,7 @@ public class VanishClass implements CommandExecutor, Listener {
                         for(Player players : Bukkit.getOnlinePlayers()) {
                             players.showPlayer(target);
                         }
+                        player.setCollidable(true);
 
                         player.sendMessage("§cVous venez de retirer le vanish de " + args[0] + " !");
                         target.sendMessage("§cVous vous êtes fait retirer votre vanish !");
