@@ -1,0 +1,8 @@
+name: vanishpix
+version: 1.0
+author: Koopa
+description: Vanish plugin
+main: fr.koopa.vanish.Main
+commands:
+  vanish:
+    aliases: v
