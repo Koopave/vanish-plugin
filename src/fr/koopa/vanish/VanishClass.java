@@ -44,17 +44,31 @@ public class VanishClass implements CommandExecutor, Listener {
                         }
                         player.setCollidable(false);
 
+                        for (Player vanishedPlayer : vanished) {
+                            if(vanished.size() >= 2) {
+
+                                player.showPlayer(vanishedPlayer);
+                                vanishedPlayer.showPlayer(player);
+
+                            }
+                        }
+
                         player.sendMessage("§aVous venez de vous vanish !");
                         return false;
                     }
 
                     if(vanished.contains(player)) {
+
                         vanished.remove(player);
+                        player.setCollidable(true);
 
                         for(Player players : Bukkit.getOnlinePlayers()) {
                             players.showPlayer(player);
                         }
-                        player.setCollidable(true);
+
+                        for (Player vanishedPlayer : vanished) {
+                                player.hidePlayer(vanishedPlayer);
+                        }
 
                         player.sendMessage("§cVous venez de retirer votre vanish !");
                         return false;
@@ -73,7 +87,17 @@ public class VanishClass implements CommandExecutor, Listener {
                         for(Player players : Bukkit.getOnlinePlayers()) {
                             players.hidePlayer(player);
                         }
+
                         player.setCollidable(false);
+
+                        for (Player vanishedPlayer : vanished) {
+                            if(vanished.size() >= 2) {
+
+                                player.showPlayer(vanishedPlayer);
+                                vanishedPlayer.showPlayer(player);
+
+                            }
+                        }
 
                         player.sendMessage("§aVous venez de vous mettre en vanish !");
                         return false;
@@ -85,11 +109,19 @@ public class VanishClass implements CommandExecutor, Listener {
                             return false;
                         }
 
-                        vanished.remove(player);
-
                         for(Player players : Bukkit.getOnlinePlayers()) {
                             players.showPlayer(player);
                         }
+
+                        for (Player vanishedPlayer : vanished) {
+                            if(vanished.size() >= 2) {
+
+                                player.hidePlayer(vanishedPlayer);
+
+                            }
+                        }
+
+                        vanished.remove(player);
                         player.setCollidable(true);
 
                         player.sendMessage("§cVous venez de vous devanish !");
@@ -108,6 +140,15 @@ public class VanishClass implements CommandExecutor, Listener {
                         for(Player players : Bukkit.getOnlinePlayers()) {
                             players.hidePlayer(target);
                         }
+
+                        for (Player vanishedPlayer : vanished) {
+                            if(vanished.size() >= 2) {
+
+                                target.showPlayer(vanishedPlayer);
+                                vanishedPlayer.showPlayer(target);
+
+                            }
+                        }
                         target.setCollidable(false);
 
                         player.sendMessage("§aVous venez de vanish " + args[0] + " !");
@@ -116,12 +157,21 @@ public class VanishClass implements CommandExecutor, Listener {
                     }
 
                     if(vanished.contains(target)) {
-                        vanished.remove(target);
 
                         for(Player players : Bukkit.getOnlinePlayers()) {
                             players.showPlayer(target);
                         }
-                        player.setCollidable(true);
+
+                        for (Player vanishedPlayer : vanished) {
+                            if(vanished.size() >= 2) {
+
+                                target.hidePlayer(vanishedPlayer);
+                                vanishedPlayer.showPlayer(target);
+
+                            }
+                        }
+                        vanished.remove(target);
+                        target.setCollidable(true);
 
                         player.sendMessage("§cVous venez de retirer le vanish de " + args[0] + " !");
                         target.sendMessage("§cVous vous êtes fait retirer votre vanish !");
