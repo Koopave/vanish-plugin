@@ -20,6 +20,8 @@ public class VanishClass implements CommandExecutor, Listener {
     private static final ArrayList<Player> vanished = new ArrayList<>();
     // /vanish <on|off|joueur>
 
+    private boolean DEBUG = false;
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
@@ -43,14 +45,13 @@ public class VanishClass implements CommandExecutor, Listener {
                             players.hidePlayer(player);
                         }
                         player.setCollidable(false);
+                        player.setGlowing(true);
+                        if (DEBUG) { listVanished(player);}
 
                         for (Player vanishedPlayer : vanished) {
-                            if(vanished.size() >= 2) {
 
                                 player.showPlayer(vanishedPlayer);
                                 vanishedPlayer.showPlayer(player);
-
-                            }
                         }
 
                         player.sendMessage("§aVous venez de vous vanish !");
@@ -60,7 +61,6 @@ public class VanishClass implements CommandExecutor, Listener {
                     if(vanished.contains(player)) {
 
                         vanished.remove(player);
-                        player.setCollidable(true);
 
                         for(Player players : Bukkit.getOnlinePlayers()) {
                             players.showPlayer(player);
@@ -69,6 +69,10 @@ public class VanishClass implements CommandExecutor, Listener {
                         for (Player vanishedPlayer : vanished) {
                                 player.hidePlayer(vanishedPlayer);
                         }
+
+                        player.setCollidable(true);
+                        player.setGlowing(false);
+                        if (DEBUG) { listVanished(player);}
 
                         player.sendMessage("§cVous venez de retirer votre vanish !");
                         return false;
@@ -89,6 +93,8 @@ public class VanishClass implements CommandExecutor, Listener {
                         }
 
                         player.setCollidable(false);
+                        player.setGlowing(true);
+                        if (DEBUG) { listVanished(player);}
 
                         for (Player vanishedPlayer : vanished) {
                             if(vanished.size() >= 2) {
@@ -123,6 +129,8 @@ public class VanishClass implements CommandExecutor, Listener {
 
                         vanished.remove(player);
                         player.setCollidable(true);
+                        player.setGlowing(false);
+                        if (DEBUG) { listVanished(player);}
 
                         player.sendMessage("§cVous venez de vous devanish !");
                         return false;
@@ -150,6 +158,8 @@ public class VanishClass implements CommandExecutor, Listener {
                             }
                         }
                         target.setCollidable(false);
+                        target.setGlowing(true);
+                        if (DEBUG) { listVanished(player);}
 
                         player.sendMessage("§aVous venez de vanish " + args[0] + " !");
                         target.sendMessage("§aVous venez d'être vanish !");
@@ -172,6 +182,8 @@ public class VanishClass implements CommandExecutor, Listener {
                         }
                         vanished.remove(target);
                         target.setCollidable(true);
+                        target.setGlowing(false);
+                        if (DEBUG) { listVanished(player);}
 
                         player.sendMessage("§cVous venez de retirer le vanish de " + args[0] + " !");
                         target.sendMessage("§cVous vous êtes fait retirer votre vanish !");
@@ -192,6 +204,17 @@ public class VanishClass implements CommandExecutor, Listener {
         return false;
     }
 
+    private void listVanished(Player thePlayer) {
+        if (vanished.size()==0) {
+            thePlayer.sendMessage("Aucun player n'est vanished");
+        } else {
+            thePlayer.sendMessage(vanished.size()+" player vanished");
+            for (Player player : vanished) {
+                thePlayer.sendMessage(player.getName() + " is vanished");
+            }
+        }
+    }
+
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         for(Player player : vanished){
@@ -202,6 +225,7 @@ public class VanishClass implements CommandExecutor, Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         vanished.remove(event.getPlayer());
+        event.getPlayer().setGlowing(false);
     }
 
     @EventHandler
