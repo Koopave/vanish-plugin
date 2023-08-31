@@ -235,7 +235,8 @@ public class VanishClass implements CommandExecutor, Listener {
             if(event.getClickedBlock().getType() == Material.GOLD_PLATE ||
                     event.getClickedBlock().getType() == Material.STONE_PLATE ||
                     event.getClickedBlock().getType() == Material.WOOD_PLATE ||
-                    event.getClickedBlock().getType() == Material.IRON_PLATE){
+                    event.getClickedBlock().getType() == Material.IRON_PLATE ||
+                    event.getClickedBlock().getType() == Material.TRIPWIRE){
                 if (vanished.contains(player)) {
 
                     event.setCancelled(true);
